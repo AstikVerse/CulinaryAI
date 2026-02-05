@@ -166,7 +166,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, 
                     disabled={isLoading}
                     className="w-full flex items-center justify-center gap-3 bg-white border border-stone-200 py-3 rounded-xl hover:bg-stone-50 transition-all shadow-sm active:scale-[0.98]"
                 >
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/pms/google.png" className="w-5 h-5" alt="Google" />
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMPQmasbFx_ipNCaPQqmK8DnsbgZnQP8WI8Q&s" className="w-5 h-5" alt="Google" />
                     <span className="text-sm font-bold text-stone-700">Continue with Google</span>
                 </button>
             </div>
