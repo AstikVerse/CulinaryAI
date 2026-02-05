@@ -81,7 +81,7 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose, u
           ) : (
             <>
               <div className="mb-8">
-                  <h3 className="text-3xl font-black text-stone-900 uppercase tracking-tighter leading-none">Rate Your Chef</h3>
+                  <h3 className="text-3xl font-black text-stone-900 uppercase tracking-tighter leading-none">Rate the Model</h3>
                   <p className="text-[10px] text-stone-400 font-black uppercase tracking-[0.2em] mt-2">Personalize the AI experience</p>
               </div>
 
