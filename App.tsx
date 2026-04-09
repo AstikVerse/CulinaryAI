@@ -45,7 +45,7 @@ function App() {
     appSettings: {
         appName: 'CulinaryAI',
         maintenanceMode: false,
-        modelName: 'gemini-3-pro-preview',
+        modelName: 'gemini-1.5-flash',
         temperature: 0.7,
         maxTokens: 2048,
         commissionRate: 5,
@@ -195,20 +195,22 @@ function App() {
     }
   };
 
-  const startCamera = async () => {
+ const startCamera = async () => {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({ 
             video: { facingMode: 'environment' } 
         });
         if (videoRef.current) {
             videoRef.current.srcObject = stream;
+            // Add this line to force the video to play
+            await videoRef.current.play(); 
         }
         setIsCameraOpen(true);
     } catch (err) {
         console.error("Error accessing camera:", err);
         alert("Could not access camera. Please check permissions.");
     }
-  };
+};
 
   const stopCamera = () => {
       if (videoRef.current && videoRef.current.srcObject) {
@@ -219,27 +221,39 @@ function App() {
       setIsCameraOpen(false);
   };
 
-  const capturePhoto = () => {
-      if (videoRef.current && canvasRef.current) {
-          const video = videoRef.current;
-          const canvas = canvasRef.current;
-          
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          
-          const ctx = canvas.getContext('2d');
-          if (ctx) {
-              ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-              const base64 = canvas.toDataURL('image/jpeg').split(',')[1];
-              const mimeType = 'image/jpeg';
-              
-              stopCamera();
-              setState(prev => ({ ...prev, lastImage: base64, lastImageMimeType: mimeType, view: 'dashboard' }));
-              triggerAnalysis(base64, mimeType);
-          }
-      }
-  };
+const capturePhoto = () => {
+    if (videoRef.current && canvasRef.current) {
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
+        
+        // CRITICAL: If video is still black/loading, these will be 0
+        if (video.videoWidth === 0 || video.videoHeight === 0) {
+            console.error("Video stream not ready yet.");
+            return;
+        }
+        
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8); // 0.8 quality for smaller payload
+            const base64 = dataUrl.split(',')[1];
+            
+            // Double check base64 actually has content
+            if (!base64 || base64.length < 100) {
+                alert("Captured image is empty. Please try again.");
+                return;
+            }
 
+            const mimeType = 'image/jpeg';
+            stopCamera();
+            setState(prev => ({ ...prev, lastImage: base64, lastImageMimeType: mimeType, view: 'dashboard' }));
+            triggerAnalysis(base64, mimeType);
+        }
+    }
+};
   const handleCuisineChange = (newCuisine: Cuisine) => {
     setState(prev => ({ ...prev, cuisine: newCuisine }));
   };
