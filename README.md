@@ -125,7 +125,9 @@ User Uploads Ingredient Image
 
 # 📸 Screenshots
 <img width="1917" height="909" alt="Screenshot 2026-04-07 232725" src="https://github.com/user-attachments/assets/279a0a36-b567-44db-aec2-78ca0a54a641" />
+
 <img width="1911" height="911" alt="Screenshot 2026-04-11 104808" src="https://github.com/user-attachments/assets/f47e00f1-4ade-4c11-9cbe-980d252ff319" />
+
 <img width="1919" height="899" alt="Screenshot 2026-02-04 134934" src="https://github.com/user-attachments/assets/26a738cf-ec38-4b1b-94f9-7376c66690ea" />
 
 
